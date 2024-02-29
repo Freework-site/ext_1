@@ -8,8 +8,8 @@ app.use(cors()); // Add this line to enable CORS
 
 // Endpoint to receive data from the frontend
 
-app.post('/', (req,res) => {
-    res.render("Hello buddy")
+app.get('/', (req,res) => {
+    res.send("Hello buddy")
 })
 
 // Start the server
