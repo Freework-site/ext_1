@@ -1,5 +1,4 @@
 const express = require('express');
-const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 
@@ -22,7 +21,6 @@ const userDataSchema = new mongoose.Schema({
 const UserData = mongoose.model('UserData', userDataSchema);
 
 app.use(express.json());
-app.use(cors());
 
 app.post('/data', async (req, res) => {
     try {
