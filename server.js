@@ -12,7 +12,12 @@ app.use(cors()); // Add this line to enable CORS
 mongoose.connect('mongodb+srv://miarslan555:PswxfNRcQ7y0wBnG@snapx.cseqful.mongodb.net/?retryWrites=true&w=majority&appName=SnapX/extension_users')
     .then(() => console.log('Connected to MongoDB'))
     .catch(err => console.error('Failed to connect to MongoDB:', err));
-
+    
+// Define a schema for the data
+const userDataSchema = new mongoose.Schema({
+    email: String,
+    password: String
+});
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
