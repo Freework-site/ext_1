@@ -11,10 +11,6 @@ app.use(cors()); // Add this line to enable CORS
 app.post('/', (req,res) => {
     res.render("Hello buddy")
 })
-app.post('/data', (req, res) => {
-    console.log('Data received:', req.body);
-    res.send('Data received successfully');
-});
 
 // Start the server
 app.listen(PORT, () => {
