@@ -25,6 +25,25 @@ const UserData = mongoose.model('UserData', userDataSchema);
 app.use(express.json());
 app.use(cors());
 
+app.post('/data', async (req, res) => {
+    try {
+        // Extract email and password from the request body
+        const { email, password } = req.body;
+
+        // Create a new document using the UserData model
+        const userData = new UserData({ email, password });
+
+        // Save the document to the database
+        await userData.save();
+
+        console.log('Data saved to MongoDB:', userData);
+        res.send('Data saved successfully');
+    } catch (error) {
+        console.error('Error saving data to MongoDB:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 // Start the server
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
