@@ -65,6 +65,7 @@ app.post('/logout', async (req, res) => {
     try {
         // Extract email from the request body
         const { email } = req.body;
+        console.log('Received email:', email); // Add this line to check if email is received
 
         // Remove the session token from the user's document in the database
         await UserData.findOneAndUpdate({ email }, { $set: { sessionToken: null } });
@@ -75,6 +76,7 @@ app.post('/logout', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 // Function to generate a random session token
 function generateSessionToken() {
