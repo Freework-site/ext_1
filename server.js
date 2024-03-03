@@ -57,10 +57,10 @@ app.post('/data', async (req, res) => {
         console.error('Login error:', error);
         res.status(500).send('Internal Server Error');
     }
-});
+}); 
 
 // Logout endpoint
-app.post('/logout', async (req, res) => {
+app.post('/logout', async  (req, res) => {
     try {
         // Extract email from the request body
         const { email } = req.body;
