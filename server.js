@@ -60,13 +60,14 @@ app.post('/data', async (req, res) => {
 });
 
 // Logout endpoint
+// Logout endpoint
 app.post('/logout', async (req, res) => {
     try {
         // Extract email from the request body
         const { email } = req.body;
 
         // Remove the session token from the user's document in the database
-        await UserData.updateOne({ email }, { sessionToken: null });
+        await UserData.findOneAndUpdate({ email }, { $set: { sessionToken: null } });
 
         res.status(200).send('Logout successful');
     } catch (error) {
