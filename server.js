@@ -17,7 +17,8 @@ mongoose.connect('mongodb+srv://miarslan555:PswxfNRcQ7y0wBnG@snapx.cseqful.mongo
 // Define a schema for the data
 const userDataSchema = new mongoose.Schema({
     email: String,
-    password: String
+    password: String,
+    sessionToken: String // Add a field for session token
 });
 
 // Create a Mongoose model based on the schema
@@ -33,6 +34,19 @@ app.post('/data', async (req, res) => {
         const user = await UserData.findOne({ email, password });
 
         if (user) {
+            // Check if the user already has an active session token
+            if (user.sessionToken) {
+                // User is already logged in
+                res.status(401).send('User is already logged in on another browser');
+                return;
+            }
+
+            // Generate a unique session token
+            const sessionToken = generateSessionToken();
+
+            // Update the user's document in the database with the session token
+            await UserData.updateOne({ email }, { sessionToken });
+
             // User is authenticated
             res.status(200).send('Login successful');
         } else {
@@ -44,6 +58,27 @@ app.post('/data', async (req, res) => {
         res.status(500).send('Internal Server Error');
     }
 });
+
+// Logout endpoint
+app.post('/logout', async (req, res) => {
+    try {
+        // Extract email from the request body
+        const { email } = req.body;
+
+        // Remove the session token from the user's document in the database
+        await UserData.updateOne({ email }, { sessionToken: null });
+
+        res.status(200).send('Logout successful');
+    } catch (error) {
+        console.error('Logout error:', error);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+// Function to generate a random session token
+function generateSessionToken() {
+    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
+}
 
 // Start the server
 app.listen(PORT, () => {
