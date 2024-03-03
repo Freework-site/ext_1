@@ -45,7 +45,7 @@ app.post('/data', async (req, res) => {
             const sessionToken = generateSessionToken();
 
             // Update the user's document in the database with the session token
-            await UserData.updateOne({ email }, { $set: { sessionToken } });
+            await UserData.updateOne({ email }, { sessionToken });
 
             // User is authenticated
             res.status(200).send('Login successful');
@@ -57,16 +57,16 @@ app.post('/data', async (req, res) => {
         console.error('Login error:', error);
         res.status(500).send('Internal Server Error');
     }
-}); 
+});
 
 // Logout endpoint
-app.post('/logout', async  (req, res) => {
+app.post('/logout', async (req, res) => {
     try {
         // Extract email from the request body
         const { email } = req.body;
 
         // Remove the session token from the user's document in the database
-        await UserData.updateOne({ email }, { $set: { sessionToken: null } });
+        await UserData.updateOne({ email }, { sessionToken: null });
 
         res.status(200).send('Logout successful');
     } catch (error) {
