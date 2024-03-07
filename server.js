@@ -6,13 +6,9 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
-app.use(express.json());
 // Middleware
 app.use(express.json());
-app.use(cors({
-    origin: 'chrome-extension://kahijckdjleppmipgjpnpiahdpbbhiii>',
-    credentials: true // Allow sending cookies from the frontend
-}));
+app.use(cors({}));
 
 // MongoDB Connection
 mongoose.connect('mongodb+srv://miarslan555:PswxfNRcQ7y0wBnG@snapx.cseqful.mongodb.net/?retryWrites=true&w=majority&appName=SnapX/user_database')
